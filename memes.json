@@ -1,0 +1,104 @@
+{
+    "memes": [
+        {
+            "id": 1,
+            "title": "Distracted Boyfriend",
+            "image": "https://i.imgflip.com/1ur9b0.jpg",
+            "description": "Классический мем о парне, который отвлекся на другую девушку, пока его девушка рядом. Используется для демонстрации предпочтений или выбора между двумя вариантами.",
+            "category": "Классика",
+            "likes": 15420,
+            "views": 98234,
+            "shares": 3421
+        },
+        {
+            "id": 2,
+            "title": "Mocking SpongeBob",
+            "image": "https://i.imgflip.com/1otk96.jpg",
+            "description": "SpongeBob с курицей на руке, используется для насмешливого повторения чьих-то слов. Текст обычно пишется в чередующемся регистре.",
+            "category": "SpongeBob",
+            "likes": 23156,
+            "views": 145678,
+            "shares": 5234
+        },
+        {
+            "id": 3,
+            "title": "Woman Yelling at Cat",
+            "image": "https://i.imgflip.com/345v97.jpg",
+            "description": "Мем с кричащей женщиной слева и недовольным котом за столом справа. Используется для демонстрации конфликтных ситуаций или непонимания.",
+            "category": "Животные",
+            "likes": 31245,
+            "views": 187456,
+            "shares": 6789
+        },
+        {
+            "id": 4,
+            "title": "Drake Hotline Bling",
+            "image": "https://i.imgflip.com/30b1gx.jpg",
+            "description": "Drake отвергает что-то (верхняя панель) и одобряет другое (нижняя панель). Идеален для сравнения двух вариантов.",
+            "category": "Музыка",
+            "likes": 28934,
+            "views": 156234,
+            "shares": 4567
+        },
+        {
+            "id": 5,
+            "title": "Change My Mind",
+            "image": "https://i.imgflip.com/24y43o.jpg",
+            "description": "Стивен Краудер сидит за столом с табличкой, приглашая изменить его мнение. Используется для провокационных утверждений.",
+            "category": "Дебаты",
+            "likes": 19876,
+            "views": 123456,
+            "shares": 3987
+        },
+        {
+            "id": 6,
+            "title": "Bernie Sanders Mittens",
+            "image": "https://upload.wikimedia.org/wikipedia/en/0/0f/Bernie_Sanders_mittens.jpg",
+            "description": "Берни Сандерс сидит на инаугурации с варежками и скрещенными руками. Стал вирусным мемом в 2021 году.",
+            "category": "Политика",
+            "likes": 42356,
+            "views": 234567,
+            "shares": 8765
+        },
+        {
+            "id": 7,
+            "title": "Expanding Brain",
+            "image": "https://i.imgflip.com/1jwhww.jpg",
+            "description": "Четыре панели с увеличивающимся мозгом. Используется для показа прогрессии идей от простых к абсурдным.",
+            "category": "Классика",
+            "likes": 18234,
+            "views": 112345,
+            "shares": 2876
+        },
+        {
+            "id": 8,
+            "title": "Is This a Pigeon?",
+            "image": "https://i.imgflip.com/1o00in.jpg",
+            "description": "Персонаж аниме указывает на бабочку, спрашивая 'это голубь?'. Используется для неправильной идентификации вещей.",
+            "category": "Аниме",
+            "likes": 21456,
+            "views": 134567,
+            "shares": 4123
+        },
+        {
+            "id": 9,
+            "title": "Two Buttons",
+            "image": "https://i.imgflip.com/1g8my4.jpg",
+            "description": "Человек потеет, не зная, какую из двух кнопок нажать. Показывает сложный выбор между двумя плохими вариантами.",
+            "category": "Классика",
+            "likes": 16789,
+            "views": 98765,
+            "shares": 3012
+        },
+        {
+            "id": 10,
+            "title": "Disaster Girl",
+            "image": "https://i.imgflip.com/23ls.jpg",
+            "description": "Девочка зловеще улыбается на фоне горящего дома. Используется для злорадства или саботажа.",
+            "category": "Классика",
+            "likes": 25678,
+            "views": 167890,
+            "shares": 5432
+        }
+    ]
+}

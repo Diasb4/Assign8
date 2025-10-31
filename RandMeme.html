@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мем дня - MemeWiki</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #fff;
+            border-bottom: 2px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            padding: 8px 15px;
+            display: inline-block;
+        }
+
+        .nav-link:hover {
+            background-color: #eee;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            border-bottom: 2px solid #333;
+        }
+
+        .main-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        /* Левая колонка - Мем дня */
+        .sidebar {
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .meme-of-day {
+            background-color: white;
+            border: 2px solid #333;
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .meme-of-day h2 {
+            font-size: 20px;
+            margin: 0 0 15px 0;
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .meme-of-day-image {
+            width: 100%;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .meme-of-day h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .meme-of-day p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .meme-of-day-category {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            padding: 3px 8px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        /* Основная область - пул мемов */
+        .content-area {
+            flex: 1;
+        }
+
+        .page-header {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .page-header h2 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        .btn-random {
+            padding: 10px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-random:hover {
+            background-color: #0056b3;
+        }
+
+        .memes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            display: none;
+        }
+
+        .meme-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .meme-card:hover {
+            border-color: #333;
+        }
+
+        .meme-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .meme-card-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+        }
+
+        .meme-card-category {
+            font-size: 12px;
+            color: #666;
+            display: inline-block;
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            margin-bottom: 5px;
+        }
+
+        .meme-card-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .meme-card-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 50px auto;
+            max-width: 90%;
+            max-height: 90vh;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .main-wrapper {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .meme-of-day {
+                position: relative;
+            }
+
+            .memes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Шапка -->
+    <div class="header">
+        <div class="container">
+            <h1>MemeWiki</h1>
+            <nav>
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="random-meme.html" class="nav-link active">Мем дня</a>
+                <a href="quiz.html" class="nav-link">Тест</a>
+                <a href="gallery.html" class="nav-link">Галерея</a>
+                <a href="game.html" class="nav-link">Игра</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="main-wrapper">
+        <!-- Левая колонка - Мем дня -->
+        <aside class="sidebar">
+            <div class="meme-of-day" id="memeOfDay">
+                <h2>МЕМ ДНЯ</h2>
+                <span class="meme-of-day-category" id="motdCategory">Категория</span>
+                <img src="" alt="Мем дня" class="meme-of-day-image" id="motdImage">
+                <h3 id="motdTitle">Загрузка...</h3>
+                <p id="motdDescription">Описание мема дня...</p>
+            </div>
+        </aside>
+
+        <!-- Основная область -->
+        <main class="content-area">
+            <div class="page-header">
+                <h2>Случайный мем</h2>
+                <button class="btn-random" id="randomBtn">Показать случайный мем</button>
+            </div>
+
+            <!-- Загрузка -->
+            <div class="loading" id="loading"
+                style="display: none; text-align: center; padding: 40px; background: white; border: 1px solid #ddd;">
+                <p>Загружаем мем...</p>
+            </div>
+
+            <!-- Карточка случайного мема -->
+            <div class="random-meme-container" id="randomMemeContainer" style="display: none;">
+                <div style="background-color: white; border: 1px solid #ddd; padding: 30px;">
+                    <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
+                        <span class="meme-card-category" id="randomCategory"
+                            style="display: inline-block; background-color: #e9ecef; padding: 5px 10px; margin-right: 10px; font-size: 14px;">Категория</span>
+                        <span id="randomDate" style="display: inline-block; color: #666; font-size: 14px;">Дата</span>
+                    </div>
+
+                    <h3 id="randomTitle" style="font-size: 28px; margin: 15px 0; text-align: center;"></h3>
+
+                    <img src="" alt="Случайный мем" id="randomImage"
+                        style="width: 100%; max-width: 600px; display: block; margin: 20px auto; border: 1px solid #ddd; cursor: pointer;">
+
+                    <p id="randomDescription" style="line-height: 1.6; color: #333; margin: 20px 0;"></p>
+
+                    <div
+                        style="display: flex; justify-content: space-around; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 20px 0; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <span id="randomLikes" style="font-size: 24px; font-weight: bold; display: block;">0</span>
+                            <span style="color: #666; font-size: 14px;">Лайков</span>
+                        </div>
+                        <div style="text-align: center;">
+                            <span id="randomViews" style="font-size: 24px; font-weight: bold; display: block;">0</span>
+                            <span style="color: #666; font-size: 14px;">Просмотров</span>
+                        </div>
+                        <div style="text-align: center;">
+                            <span id="randomShares" style="font-size: 24px; font-weight: bold; display: block;">0</span>
+                            <span style="color: #666; font-size: 14px;">Поделились</span>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button id="likeBtn"
+                            style="padding: 10px 20px; margin: 0 5px; border: 1px solid #ddd; background-color: white; cursor: pointer; font-size: 14px;">❤
+                            Нравится</button>
+                        <button id="shareBtn"
+                            style="padding: 10px 20px; margin: 0 5px; border: 1px solid #ddd; background-color: white; cursor: pointer; font-size: 14px;">↗
+                            Поделиться</button>
+                        <a href="gallery.html"
+                            style="padding: 10px 20px; margin: 0 5px; border: 1px solid #ddd; background-color: white; cursor: pointer; font-size: 14px; text-decoration: none; color: black; display: inline-block;">📁
+                            Посмотреть всю галерею</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="imageModal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <div class="modal-content">
+            <h3 class="modal-title" id="modalTitle"></h3>
+            <img src="" alt="Мем" class="modal-image" id="modalMemeImage">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        // База данных мемов (fallback если JSON не загрузится)
+        let memes = [
+            {
+                title: "Distracted Boyfriend",
+                image: "https://i.imgflip.com/1ur9b0.jpg",
+                description: "Классический мем о парне, который отвлекся на другую девушку, пока его девушка рядом. Используется для демонстрации предпочтений или выбора между двумя вариантами.",
+                category: "Классика",
+                likes: 15420,
+                views: 98234,
+                shares: 3421
+            },
+            {
+                title: "Mocking SpongeBob",
+                image: "https://i.imgflip.com/1otk96.jpg",
+                description: "SpongeBob с курицей на руке, используется для насмешливого повторения чьих-то слов. Текст обычно пишется в чередующемся регистре.",
+                category: "SpongeBob",
+                likes: 23156,
+                views: 145678,
+                shares: 5234
+            },
+            {
+                title: "Woman Yelling at Cat",
+                image: "https://i.imgflip.com/345v97.jpg",
+                description: "Мем с кричащей женщиной слева и недовольным котом за столом справа. Используется для демонстрации конфликтных ситуаций или непонимания.",
+                category: "Животные",
+                likes: 31245,
+                views: 187456,
+                shares: 6789
+            },
+            {
+                title: "Drake Hotline Bling",
+                image: "https://i.imgflip.com/30b1gx.jpg",
+                description: "Drake отвергает что-то (верхняя панель) и одобряет другое (нижняя панель). Идеален для сравнения двух вариантов.",
+                category: "Музыка",
+                likes: 28934,
+                views: 156234,
+                shares: 4567
+            },
+            {
+                title: "Change My Mind",
+                image: "https://i.imgflip.com/24y43o.jpg",
+                description: "Стивен Краудер сидит за столом с табличкой, приглашая изменить его мнение. Используется для провокационных утверждений.",
+                category: "Дебаты",
+                likes: 19876,
+                views: 123456,
+                shares: 3987
+            },
+            {
+                title: "Bernie Sanders Mittens",
+                image: "https://upload.wikimedia.org/wikipedia/en/0/0f/Bernie_Sanders_mittens.jpg",
+                description: "Берни Сандерс сидит на инаугурации с варежками и скрещенными руками. Стал вирусным мемом в 2021 году.",
+                category: "Политика",
+                likes: 42356,
+                views: 234567,
+                shares: 8765
+            },
+            {
+                title: "Expanding Brain",
+                image: "https://i.imgflip.com/1jwhww.jpg",
+                description: "Четыре панели с увеличивающимся мозгом. Используется для показа прогрессии идей от простых к абсурдным.",
+                category: "Классика",
+                likes: 18234,
+                views: 112345,
+                shares: 2876
+            },
+            {
+                title: "Is This a Pigeon?",
+                image: "https://i.imgflip.com/1o00in.jpg",
+                description: "Персонаж аниме указывает на бабочку, спрашивая 'это голубь?'. Используется для неправильной идентификации вещей.",
+                category: "Аниме",
+                likes: 21456,
+                views: 134567,
+                shares: 4123
+            },
+            {
+                title: "Two Buttons",
+                image: "https://i.imgflip.com/1g8my4.jpg",
+                description: "Человек потеет, не зная, какую из двух кнопок нажать. Показывает сложный выбор между двумя плохими вариантами.",
+                category: "Классика",
+                likes: 16789,
+                views: 98765,
+                shares: 3012
+            },
+            {
+                title: "Disaster Girl",
+                image: "https://i.imgflip.com/23ls.jpg",
+                description: "Девочка зловеще улыбается на фоне горящего дома. Используется для злорадства или саботажа.",
+                category: "Классика",
+                likes: 25678,
+                views: 167890,
+                shares: 5432
+            }
+        ];
+
+        // Попытка загрузить мемы из JSON
+        fetch('memes.json')
+            .then(response => response.json())
+            .then(data => {
+                if (data.memes && Array.isArray(data.memes)) {
+                    memes = data.memes;
+                    console.log('Мемы загружены из JSON файла');
+                }
+            })
+            .catch(e => {
+                console.log('Используется встроенная база мемов');
+            });
+
+        let currentRandomMeme = null;
+        let isLiked = false;
+
+        $(document).ready(function () {
+            // Показать мем дня при загрузке
+            displayMemeOfTheDay();
+
+            // Обработчик кнопки случайного мема
+            $('#randomBtn').on('click', function () {
+                loadRandomMeme();
+            });
+
+            // Обработчик лайка
+            $('#likeBtn').on('click', function () {
+                toggleLike();
+            });
+
+            // Обработчик поделиться
+            $('#shareBtn').on('click', function () {
+                shareMeme();
+            });
+
+            // Клик по изображению случайного мема
+            $('#randomImage').on('click', function () {
+                if (currentRandomMeme) {
+                    openModal(currentRandomMeme);
+                }
+            });
+
+            // Закрытие модального окна
+            $('#modalClose, #imageModal').on('click', function (e) {
+                if (e.target.id === 'modalClose' || e.target.id === 'imageModal') {
+                    $('#imageModal').hide();
+                }
+            });
+        });
+
+        function displayMemeOfTheDay() {
+            // Случайная рулетка по мемам
+            let rouletteIndex = 0;
+            const rouletteSpeed = 100; // скорость прокрутки в мс
+            const totalSpins = 15 + Math.floor(Math.random() * 10); // 15-25 прокруток
+            let spinCount = 0;
+
+            const rouletteInterval = setInterval(function () {
+                // Показываем текущий мем из рулетки
+                const currentMeme = memes[rouletteIndex];
+
+                $('#motdCategory').text(currentMeme.category);
+                $('#motdTitle').text(currentMeme.title);
+                $('#motdDescription').text(currentMeme.description.substring(0, 100) + '...');
+                $('#motdImage').attr('src', currentMeme.image);
+
+                // Переходим к следующему мему
+                rouletteIndex = (rouletteIndex + 1) % memes.length;
+                spinCount++;
+
+                // Останавливаем рулетку
+                if (spinCount >= totalSpins) {
+                    clearInterval(rouletteInterval);
+
+                    // Выбираем финальный мем на основе даты
+                    const today = new Date();
+                    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+                    const finalIndex = dayOfYear % memes.length;
+                    const finalMeme = memes[finalIndex];
+
+                    // Показываем финальный мем
+                    $('#motdCategory').text(finalMeme.category);
+                    $('#motdTitle').text(finalMeme.title);
+                    $('#motdDescription').text(finalMeme.description);
+                    $('#motdImage').attr('src', finalMeme.image);
+                    $('#memeOfDay').addClass('loaded');
+
+                    // Клик по изображению мема дня
+                    $('#motdImage').off('click').on('click', function () {
+                        openModal(finalMeme);
+                    });
+                }
+            }, rouletteSpeed);
+        }
+
+        function openModal(meme) {
+            $('#modalTitle').text(meme.title);
+            $('#modalMemeImage').attr('src', meme.image);
+            $('#imageModal').show();
+        }
+
+        function loadRandomMeme() {
+            $('#randomMemeContainer').hide();
+            $('#loading').show();
+
+            // Имитация загрузки
+            setTimeout(function () {
+                const randomIndex = Math.floor(Math.random() * memes.length);
+                currentRandomMeme = memes[randomIndex];
+
+                $('#loading').hide();
+                displayRandomMeme(currentRandomMeme);
+                $('#randomMemeContainer').show();
+            }, 800);
+        }
+
+        function displayRandomMeme(meme) {
+            currentRandomMeme = meme;
+            isLiked = false;
+
+            $('#randomTitle').text(meme.title);
+            $('#randomImage').attr('src', meme.image);
+            $('#randomDescription').text(meme.description);
+            $('#randomCategory').text(meme.category);
+
+            // Установка даты
+            const today = new Date().toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            $('#randomDate').text(today);
+
+            // Установка статистики
+            $('#randomLikes').text(meme.likes.toLocaleString('ru-RU'));
+            $('#randomViews').text(meme.views.toLocaleString('ru-RU'));
+            $('#randomShares').text(meme.shares.toLocaleString('ru-RU'));
+
+            // Сброс кнопки лайка
+            $('#likeBtn').text('❤ Нравится').css({ 'background-color': 'white', 'color': 'black', 'border-color': '#ddd' });
+        }
+
+        function toggleLike() {
+            isLiked = !isLiked;
+            const $btn = $('#likeBtn');
+
+            if (isLiked) {
+                $btn.text('❤ Понравилось!').css({ 'background-color': '#dc3545', 'color': 'white', 'border-color': '#dc3545' });
+                currentRandomMeme.likes++;
+                $('#randomLikes').text(currentRandomMeme.likes.toLocaleString('ru-RU'));
+            } else {
+                $btn.text('❤ Нравится').css({ 'background-color': 'white', 'color': 'black', 'border-color': '#ddd' });
+                currentRandomMeme.likes--;
+                $('#randomLikes').text(currentRandomMeme.likes.toLocaleString('ru-RU'));
+            }
+        }
+
+        function shareMeme() {
+            if (currentRandomMeme) {
+                currentRandomMeme.shares++;
+                $('#randomShares').text(currentRandomMeme.shares.toLocaleString('ru-RU'));
+
+                alert('Ссылка скопирована! ' + currentRandomMeme.title);
+
+                const $btn = $('#shareBtn');
+                $btn.text('✓ Поделились!');
+                setTimeout(function () {
+                    $btn.text('↗ Поделиться');
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+
+</html>
