@@ -46,9 +46,9 @@
             <!-- Экран квиза -->
             <div id="quizScreen">
                 <div class="quiz-header">
-                    <h2>🎯 Угадай мем!</h2>
+                    <h2>🎯 Guess Meme!</h2>
                     <div class="score">
-                        Вопрос <span id="currentQuestion">1</span> из <span id="totalQuestions">10</span>
+                        Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span>
                     </div>
                     <div class="progress-bar-custom">
                         <div class="progress-fill" id="progressBar" style="width: 10%;">
@@ -59,13 +59,13 @@
 
                 <img src="" alt="Мем" class="meme-image" id="memeImage">
 
-                <p class="hint">Введите название мема или что он обозначает</p>
+                <p class="hint">Enter meme name or what it represents</p>
 
-                <input type="text" class="answer-input" id="answerInput" placeholder="Ваш ответ...">
+                <input type="text" class="answer-input" id="answerInput" placeholder="Your answer...">
 
                 <div>
-                    <button class="btn-submit" id="submitBtn">Проверить ответ</button>
-                    <button class="btn-skip" id="skipBtn">Пропустить</button>
+                    <button class="btn-submit" id="submitBtn">Check Answer</button>
+                    <button class="btn-skip" id="skipBtn">Skip</button>
                 </div>
 
                 <div class="feedback" id="feedback"></div>
@@ -73,13 +73,13 @@
 
             <!-- Экран результатов -->
             <div class="result-screen" id="resultScreen">
-                <h2>🎉 Квиз завершен!</h2>
+                <h2>🎉 Quiz Completed!</h2>
                 <div class="final-score" id="finalScore">0/10</div>
                 <p style="font-size: 20px; color: #666;" id="resultMessage"></p>
-                <button class="btn-restart" id="restartBtn">Начать заново</button>
+                <button class="btn-restart" id="restartBtn">Restart</button>
                 <a href="gallery.html" class="btn-restart"
-                    style="display: inline-block; text-decoration: none; background-color: #007bff; margin-left: 10px;">Посмотреть
-                    все мемы</a>
+                    style="display: inline-block; text-decoration: none; background-color: #007bff; margin-left: 10px;">View
+                    All Memes</a>
             </div>
         </div>
     </div>
@@ -232,7 +232,7 @@
             const userAnswer = $('#answerInput').val().trim().toLowerCase();
 
             if (!userAnswer) {
-                alert('Пожалуйста, введите ответ!');
+                alert('Please enter an answer!');
                 return;
             }
 
