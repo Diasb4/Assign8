@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Угадай мем - MemeWiki</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Шапка -->
+    <div class="header">
+        <div class="container">
+            <div class="theme-toggle">
+                <button id="themeToggle" title="Переключить тему">🌙</button>
+            </div>
+            <h1>MemeWiki</h1>
+            <nav class="navbar navbar-expand-lg border-bottom border-body my-navbar" data-bs-theme="light">
+                <div class="container-fluid">
+                    <a class="navbar-brand mb-0 h1" href="#">memewiki.
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href=#>Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
+                            <li class="nav-item"><a class="nav-link" href=#>Random meme</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Game</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Test</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="quiz-container">
+            <!-- Экран квиза -->
+            <div id="quizScreen">
+                <div class="quiz-header">
+                    <h2>🎯 Угадай мем!</h2>
+                    <div class="score">
+                        Вопрос <span id="currentQuestion">1</span> из <span id="totalQuestions">10</span>
+                    </div>
+                    <div class="progress-bar-custom">
+                        <div class="progress-fill" id="progressBar" style="width: 10%;">
+                            <span id="progressText">10%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <img src="" alt="Мем" class="meme-image" id="memeImage">
+
+                <p class="hint">Введите название мема или что он обозначает</p>
+
+                <input type="text" class="answer-input" id="answerInput" placeholder="Ваш ответ...">
+
+                <div>
+                    <button class="btn-submit" id="submitBtn">Проверить ответ</button>
+                    <button class="btn-skip" id="skipBtn">Пропустить</button>
+                </div>
+
+                <div class="feedback" id="feedback"></div>
+            </div>
+
+            <!-- Экран результатов -->
+            <div class="result-screen" id="resultScreen">
+                <h2>🎉 Квиз завершен!</h2>
+                <div class="final-score" id="finalScore">0/10</div>
+                <p style="font-size: 20px; color: #666;" id="resultMessage"></p>
+                <button class="btn-restart" id="restartBtn">Начать заново</button>
+                <a href="gallery.html" class="btn-restart"
+                    style="display: inline-block; text-decoration: none; background-color: #007bff; margin-left: 10px;">Посмотреть
+                    все мемы</a>
+            </div>
+        </div>
+    </div>
+    <footer class="mt-auto text-center py-1 my-footer">
+        <div class="container-fluid">
+            <p>&copy; 2025 memewiki. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        let memes = [
+            {
+                title: "Distracted Boyfriend",
+                image: "https://i.imgflip.com/1ur9b0.jpg",
+                description: "Classic meme about a guy who got distracted by another girl while his girlfriend is nearby. Used to demonstrate preferences or choices between two options.",
+                category: "Classic",
+                likes: 15420,
+                views: 98234,
+                shares: 3421
+            },
+            {
+                title: "Mocking SpongeBob",
+                image: "https://i.imgflip.com/1otk96.jpg",
+                description: "SpongeBob with a chicken on his hand, used for mockingly repeating someone's words. Text is usually written in alternating case.",
+                category: "SpongeBob",
+                likes: 23156,
+                views: 145678,
+                shares: 5234
+            },
+            {
+                title: "Woman Yelling at Cat",
+                image: "https://i.imgflip.com/345v97.jpg",
+                description: "Meme with a screaming woman on the left and a displeased cat at the table on the right. Used to demonstrate conflict situations or misunderstandings.",
+                category: "Animals",
+                likes: 31245,
+                views: 187456,
+                shares: 6789
+            },
+            {
+                title: "Drake Hotline Bling",
+                image: "https://i.imgflip.com/30b1gx.jpg",
+                description: "Drake rejects something (top panel) and approves another (bottom panel). Ideal for comparing two options.",
+                category: "Music",
+                likes: 28934,
+                views: 156234,
+                shares: 4567
+            },
+            {
+                title: "Change My Mind",
+                image: "https://i.imgflip.com/24y43o.jpg",
+                description: "Steven Crowder sitting at a table with a sign inviting to change his mind. Used for provocative statements.",
+                category: "Debates",
+                likes: 19876,
+                views: 123456,
+                shares: 3987
+            },
+            {
+                title: "Bernie Sanders Mittens",
+                image: "https://upload.wikimedia.org/wikipedia/en/0/0f/Bernie_Sanders_mittens.jpg",
+                description: "Bernie Sanders sitting at the inauguration with mittens and crossed arms. Became a viral meme in 2021.",
+                category: "Politics",
+                likes: 42356,
+                views: 234567,
+                shares: 8765
+            },
+            {
+                title: "Expanding Brain",
+                image: "https://i.imgflip.com/1jwhww.jpg",
+                description: "Four panels with an expanding brain. Used to show progression of ideas from simple to absurd.",
+                category: "Classic",
+                likes: 18234,
+                views: 112345,
+                shares: 2876
+            },
+            {
+                title: "Is This a Pigeon?",
+                image: "https://i.imgflip.com/1o00in.jpg",
+                description: "Anime character pointing at a butterfly asking 'is this a pigeon?'. Used for incorrect identification of things.",
+                category: "Anime",
+                likes: 21456,
+                views: 134567,
+                shares: 4123
+            },
+            {
+                title: "Two Buttons",
+                image: "https://i.imgflip.com/1g8my4.jpg",
+                description: "Person sweating, not knowing which of two buttons to press. Shows a difficult choice between two bad options.",
+                category: "Classic",
+                likes: 16789,
+                views: 98765,
+                shares: 3012
+            },
+            {
+                title: "Disaster Girl",
+                image: "https://i.imgflip.com/23ls.jpg",
+                description: "Girl smiling sinisterly with a burning house in the background. Used for schadenfreude or sabotage.",
+                category: "Classic",
+                likes: 25678,
+                views: 167890,
+                shares: 5432
+            }
+        ];
+        let currentMemeIndex = 0;
+        let score = 0;
+        let usedMemes = [];
+        let currentMeme = null;
+
+        // Загрузка мемов
+        fetch('memes.json')
+            .then(response => response.json())
+            .then(data => {
+                if (data.memes && Array.isArray(data.memes)) {
+                    memes = data.memes;
+                    shuffleMemes();
+                    loadQuestion();
+                }
+            })
+            .catch(e => {
+                console.error('Ошибка загрузки мемов:', e);
+                alert('Не удалось загрузить мемы. Пожалуйста, обновите страницу.');
+            });
+
+        function shuffleMemes() {
+            // Перемешиваем мемы
+            memes = memes.sort(() => Math.random() - 0.5);
+        }
+
+        function loadQuestion() {
+            if (currentMemeIndex >= memes.length) {
+                showResults();
+                return;
+            }
+
+            currentMeme = memes[currentMemeIndex];
+
+            $('#memeImage').attr('src', currentMeme.image);
+            $('#answerInput').val('');
+            $('#feedback').hide();
+            $('#currentQuestion').text(currentMemeIndex + 1);
+            $('#totalQuestions').text(memes.length);
+
+            // Обновление прогресс-бара
+            const progress = ((currentMemeIndex + 1) / memes.length) * 100;
+            $('#progressBar').css('width', progress + '%');
+            $('#progressText').text(Math.round(progress) + '%');
+        }
+
+        function checkAnswer() {
+            const userAnswer = $('#answerInput').val().trim().toLowerCase();
+
+            if (!userAnswer) {
+                alert('Пожалуйста, введите ответ!');
+                return;
+            }
+
+            const correctTitle = currentMeme.title.toLowerCase();
+            const description = currentMeme.description.toLowerCase();
+
+            // Нормализация ответа (убираем лишние символы)
+            const normalizeText = (text) => {
+                return text.replace(/[^a-zа-яё0-9\s]/gi, '').trim();
+            };
+
+            const normalizedAnswer = normalizeText(userAnswer);
+            const normalizedTitle = normalizeText(correctTitle);
+
+            // Проверка на совпадение
+            let isCorrect = false;
+
+            // 1. Точное совпадение
+            if (normalizedAnswer === normalizedTitle) {
+                isCorrect = true;
+            }
+            // 2. Ответ содержит название или наоборот
+            else if (normalizedAnswer.includes(normalizedTitle) || normalizedTitle.includes(normalizedAnswer)) {
+                isCorrect = true;
+            }
+            // 3. Проверка по отдельным словам названия
+            else {
+                const titleWords = normalizedTitle.split(' ').filter(w => w.length > 2);
+                const answerWords = normalizedAnswer.split(' ').filter(w => w.length > 2);
+
+                // Если хотя бы 50% слов совпадают
+                let matchCount = 0;
+                titleWords.forEach(word => {
+                    if (answerWords.some(aw => aw.includes(word) || word.includes(aw))) {
+                        matchCount++;
+                    }
+                });
+
+                if (matchCount >= Math.ceil(titleWords.length * 0.5)) {
+                    isCorrect = true;
+                }
+            }
+            // 4. Проверка ключевых слов из описания
+            if (!isCorrect) {
+                const keyPhrases = [
+                    'выбор', 'выбора', 'вариант', 'предпочтение',
+                    'отвлекся', 'девушка', 'парень',
+                    'дрейк', 'drake', 'одобряет', 'отвергает',
+                    'спанчбоб', 'spongebob', 'насмешка', 'повтор',
+                    'женщина', 'кот', 'крич', 'конфликт',
+                    'мозг', 'brain', 'идея', 'прогресс',
+                    'кнопка', 'button', 'потеет',
+                    'голубь', 'pigeon', 'бабочка', 'butterfly',
+                    'не знаю', 'not sure', 'парень', 'девушка',
+                    'берни', 'bernie', 'сандерс', 'варежка',
+                    'краудер', 'crowder', 'мнение', 'измени',
+                    'девочка', 'дом', 'горит', 'пожар'
+                ];
+
+                for (let phrase of keyPhrases) {
+                    if (normalizedAnswer.includes(phrase) && description.includes(phrase)) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isCorrect) {
+                score++;
+                $('#feedback').removeClass('incorrect').addClass('correct');
+                $('#feedback').html(`Правильно! Это <strong>${currentMeme.title}</strong><br><small>${currentMeme.description}</small>`);
+            } else {
+                $('#feedback').removeClass('correct').addClass('incorrect');
+                $('#feedback').html(`Неправильно. Это <strong>${currentMeme.title}</strong><br><small>${currentMeme.description}</small>`);
+            }
+
+            $('#feedback').show();
+            $('#submitBtn').hide();
+            $('#skipBtn').text('Следующий вопрос').off('click').on('click', nextQuestion);
+            $('#answerInput').prop('disabled', true);
+        }
+
+        function skipQuestion() {
+            $('#feedback').removeClass('correct').addClass('incorrect');
+            $('#feedback').html(`⏭️ Пропущено. Это был <strong>${currentMeme.title}</strong><br><small>${currentMeme.description}</small>`);
+            $('#feedback').show();
+            $('#submitBtn').hide();
+            $('#skipBtn').text('Следующий вопрос').off('click').on('click', nextQuestion);
+            $('#answerInput').prop('disabled', true);
+        }
+
+        function nextQuestion() {
+            currentMemeIndex++;
+            $('#submitBtn').show();
+            $('#skipBtn').text('Пропустить').off('click').on('click', skipQuestion);
+            $('#answerInput').prop('disabled', false);
+            loadQuestion();
+        }
+
+        function showResults() {
+            $('#quizScreen').hide();
+            $('#resultScreen').show();
+
+            $('#finalScore').text(`${score}/${memes.length}`);
+
+            let message = '';
+            const percentage = (score / memes.length) * 100;
+
+            if (percentage === 100) {
+                message = 'Невероятно! Вы настоящий эксперт по мемам!';
+            } else if (percentage >= 80) {
+                message = 'Отличный результат! Вы отлично разбираетесь в мемах!';
+            } else if (percentage >= 60) {
+                message = 'Хороший результат! Вы неплохо знаете мемы!';
+            } else if (percentage >= 40) {
+                message = 'Неплохо! Но есть куда расти!';
+            } else {
+                message = 'Попробуйте еще раз! Практика делает мастера!';
+            }
+
+            $('#resultMessage').text(message);
+        }
+
+        function restartQuiz() {
+            currentMemeIndex = 0;
+            score = 0;
+            shuffleMemes();
+            $('#quizScreen').show();
+            $('#resultScreen').hide();
+            $('#submitBtn').show();
+            $('#skipBtn').text('Пропустить').off('click').on('click', skipQuestion);
+            $('#answerInput').prop('disabled', false);
+            loadQuestion();
+        }
+
+        // Обработчики событий
+        $(document).ready(function () {
+            // Загрузка сохраненной темы
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            // Переключение темы
+            $('#themeToggle').on('click', function () {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+
+            $('#submitBtn').on('click', checkAnswer);
+            $('#skipBtn').on('click', skipQuestion);
+            $('#restartBtn').on('click', restartQuiz);
+
+            // Enter для отправки ответа
+            $('#answerInput').on('keypress', function (e) {
+                if (e.which === 13 && $('#submitBtn').is(':visible')) {
+                    checkAnswer();
+                }
+            });
+        });
+
+        function updateThemeIcon(theme) {
+            $('#themeToggle').text(theme === 'light' ? '🌙' : '☀️');
+        }
+    </script>
+</body>
+
+</html>
