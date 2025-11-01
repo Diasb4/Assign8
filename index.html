@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мем дня - MemeWiki</title>
+    <title>The Meme of the Day - MemeWiki</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -45,25 +45,25 @@
         <!-- Левая колонка - Мем дня -->
         <aside class="sidebar">
             <div class="meme-of-day" id="memeOfDay">
-                <h2>МЕМ ДНЯ</h2>
+                <h2>MEME OF THE DAY</h2>
                 <span class="meme-of-day-category" id="motdCategory">Категория</span>
                 <img src="" alt="Мем дня" class="meme-of-day-image" id="motdImage">
-                <h3 id="motdTitle">Загрузка...</h3>
-                <p id="motdDescription">Описание мема дня...</p>
+                <h3 id="motdTitle">Loading...</h3>
+                <p id="motdDescription">Description for meme of the day...</p>
             </div>
         </aside>
 
         <!-- Основная область -->
         <main class="content-area">
             <div class="page-header">
-                <h2>Случайный мем</h2>
-                <button class="btn-random" id="randomBtn">Показать случайный мем</button>
+                <h2>Random meme</h2>
+                <button class="btn-random" id="randomBtn">Show random meme</button>
             </div>
 
             <!-- Загрузка -->
             <div class="loading" id="loading"
                 style="display: none; text-align: center; padding: 40px; background: white; border: 1px solid #ddd;">
-                <p>Загружаем мем...</p>
+                <p>Loading meme...</p>
             </div>
 
             <!-- Карточка случайного мема -->
@@ -71,7 +71,7 @@
                 <div style="background-color: white; border: 1px solid #ddd; padding: 30px;">
                     <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
                         <span class="meme-card-category" id="randomCategory"
-                            style="display: inline-block; background-color: #e9ecef; padding: 5px 10px; margin-right: 10px; font-size: 14px;">Категория</span>
+                            style="display: inline-block; background-color: #e9ecef; padding: 5px 10px; margin-right: 10px; font-size: 14px;">Category</span>
                         <span id="randomDate" style="display: inline-block; color: #666; font-size: 14px;">Дата</span>
                     </div>
 
@@ -101,13 +101,13 @@
                     <div style="text-align: center; margin-top: 20px;">
                         <button id="likeBtn"
                             style="padding: 10px 20px; margin: 0 5px; border: 1px solid #ddd; background-color: white; cursor: pointer; font-size: 14px;">❤
-                            Нравится</button>
+                            Like</button>
                         <button id="shareBtn"
                             style="padding: 10px 20px; margin: 0 5px; border: 1px solid #ddd; background-color: white; cursor: pointer; font-size: 14px;">↗
-                            Поделиться</button>
+                            Share</button>
                         <a href="gallery.html"
                             style="padding: 10px 20px; margin: 0 5px; border: 1px solid #ddd; background-color: white; cursor: pointer; font-size: 14px; text-decoration: none; color: black; display: inline-block;">📁
-                            Посмотреть всю галерею</a>
+                           Show all Gallery</a>
                     </div>
                 </div>
             </div>
